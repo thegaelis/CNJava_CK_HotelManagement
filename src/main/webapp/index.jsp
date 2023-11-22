@@ -30,7 +30,9 @@
 					<div class="card-body p-10">
 						<div class="row">
 							<div class="col-lg-6 d-none d-lg-flex">
-								<div class="flex-grow-1"></div>
+								<div class="flex-grow-1">
+								<img src="assets/img/hotel_logo.jpg" width="100%">
+								</div>
 							</div>
 							<div class="col-lg-6">
 								<div class="p-5">
@@ -59,17 +61,7 @@
 										<div class="mb-3">
 										<span class="text-danger" ><%= request.getAttribute("msg") != null?request.getAttribute("msg"):"" %></span>
 										</div>
-										<div class="mb-3">
-											<div class="custom-control custom-checkbox small">
-												<div class="form-check">
-													<input class="form-check-input custom-control-input"
-														type="checkbox" id="rememberMe" name="rememberMe"
-														value="false"> <label
-														class="form-check-label custom-control-label"
-														for="rememberMe">Remember Me</label>
-												</div>
-											</div>
-										</div>
+										
 										
 										<button
 											class="btn d-block btn-user w-100 fw-bold"

@@ -30,8 +30,8 @@ public class ReservationRoomDAO {
 			List<ReservationRoom> reservationRooms = new ArrayList<ReservationRoom>();
 			while (result.next()) {
 				ReservationRoom reservationRoom = new ReservationRoom();
-				reservationRoom.setRoomId(result.getString("ReservationID "));
-				reservationRoom.setReservationId(result.getString("ReservationID "));
+				reservationRoom.setRoomId(result.getString("ReservationID"));
+				reservationRoom.setReservationId(result.getString("ReservationID"));
 				
 				reservationRooms.add(reservationRoom);
 			}
@@ -46,10 +46,35 @@ public class ReservationRoomDAO {
 	}
 	
 	
+	public List<String> listIdPhongDaDat() {
+		try {
+
+			String query = "SELECT RoomID FROM reservationrooms ";
+
+			connection = new config().getConnection();
+			
+			statement = connection.prepareStatement(query);
+			
+			result = statement.executeQuery();
+
+			List<String> id = new ArrayList<String>();
+			while (result.next()) {
+				id.add(result.getString("RoomID"));
+			}
+			result.close();
+			statement.close();
+			connection.close();
+			return id;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return Collections.emptyList();
+	}
+	
 	public boolean insertReservationRoom(ReservationRoom reservationRoom) {
 		try {
 			Calendar now = Calendar.getInstance();
-			String query = "INSERT INTO reservationrooms  (`RoomID  `, `ReservationID  `, `DateCreated`) " + "VALUES (?, ?, ?)";
+			String query = "INSERT INTO reservationrooms  (`RoomID`, `ReservationID`, `DateCreated`) " + "VALUES (?, ?, ?)";
 			connection = new config().getConnection();
 			statement = connection.prepareStatement(query);
 			

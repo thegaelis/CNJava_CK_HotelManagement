@@ -192,6 +192,26 @@ public class RoomDAO {
 		}
 		return Collections.emptyList();
 	}
+	
+	public List<String> getAllRoomIdNoParam() {
+		try {
+			String query = "SELECT RoomId FROM rooms";
+			List<String> listRoomId = new ArrayList<>();
+			connection = new config().getConnection();
+			statement = connection.prepareStatement(query);
+			result = statement.executeQuery();
+			while (result.next()) {
+				listRoomId.add(result.getString("RoomID"));
+			}
+			result.close();
+			statement.close();
+			connection.close();
+			return listRoomId;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return Collections.emptyList();
+	}
 
 	
 	public List<String> LayIdPhongTheoIdKhach(String id){
@@ -209,6 +229,80 @@ public class RoomDAO {
 			statement.close();
 			connection.close();
 			return listRoomId;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return Collections.emptyList();
+	}
+	
+	public List<String> layIdPhongDaDat(String ngayden, String ngaydi, String RoomTypeId) {
+		try {
+			String query = "Select distinct RoomID from"
+					+ "(SELECT reservations.ReservationID,reservationrooms.RoomID,rooms.RoomTypeID"
+					+ ",StartTime,EndTime,RoomNumber,IsAvailable,rooms.DateCreated from reservations"
+					+ ",reservationrooms,rooms where reservations.ReservationID = reservationrooms.ReservationID"
+					+ " and reservationrooms.RoomID = rooms.RoomID) as BangAo where ((StartTime > ? and StartTime < ?)"
+					+ " or (EndTime > ? and EndTime < ?) or (StartTime <= ? and EndTime >= ?))"
+					+ " and RoomTypeID = ?";
+			List<String> listRoomId = new ArrayList<>();
+			connection = new config().getConnection();
+			statement = connection.prepareStatement(query);
+			statement.setString(1, ngayden);
+			statement.setString(2, ngaydi);
+			statement.setString(3, ngayden);
+			statement.setString(4, ngaydi);
+			statement.setString(5, ngayden);
+			statement.setString(6, ngaydi);
+			statement.setString(7, RoomTypeId);
+			result = statement.executeQuery();
+			while (result.next()) {
+				listRoomId.add(result.getString("RoomID"));
+			}
+			result.close();
+			statement.close();
+			connection.close();
+			return listRoomId;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return Collections.emptyList();
+	}
+	
+	public List<Room> layPhongChuaDat(String ngayden, String ngaydi, String RoomTypeId) {
+		List<String> listIdPhong = getAllRoomId(RoomTypeId);
+		List<String> listIdPhongDaDat = layIdPhongDaDat(ngayden, ngaydi, RoomTypeId);
+	
+		listIdPhong.removeAll(listIdPhongDaDat);
+		
+		
+		for(int i = 0; i < listIdPhong.size(); ++i) {
+			listIdPhong.set(i, "'"+listIdPhong.get(i)+"'");
+		}
+		String strListIdPhong = listIdPhong.toString();
+		strListIdPhong = strListIdPhong.replace("[", "(");
+		strListIdPhong = strListIdPhong.replace("]", ")");
+		System.out.println(strListIdPhong);
+		try {
+			System.out.println("1list");
+			String query = "SELECT * FROM rooms where RoomID in " + strListIdPhong;
+			List<Room> list = new ArrayList<>();
+			connection = new config().getConnection();
+			statement = connection.prepareStatement(query);
+			result = statement.executeQuery();
+			
+			while (result.next()) {
+				Room room = new Room();
+				room.setId(result.getString("RoomId"));
+				room.setNumber(result.getString("RoomNumber"));
+				room.setTypeId(result.getString("RoomTypeID"));
+				room.setIsVaiable(result.getBoolean("IsAvailable"));
+				list.add(room);
+			}
+			result.close();
+			statement.close();
+			connection.close();
+			
+			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
