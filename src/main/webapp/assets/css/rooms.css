@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+.heading-detail{
+    color: rgba(3,18,26,1.00);
+    font-weight: 600 ;
+}
+
+.modal-body{
+    color: rgba(3,18,26,1.00);
+    font-weight: 400;
+}
+
+.body-detail{
+    font-size: 14px;
+}
