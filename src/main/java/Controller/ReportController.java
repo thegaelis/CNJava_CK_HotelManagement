@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -22,7 +23,9 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import BEAN.Bill;
+import BEAN.Report;
 import DAO.BillDAO;
+import DAO.ReportDAO;
 
 /**
  * Servlet implementation class ReportController
@@ -44,7 +47,7 @@ public class ReportController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-				
+		List<Report> reports = new ReportDAO().listReport();
 				
 				String str1 = request.getParameter("d1");
 				String str2 = request.getParameter("d2");
@@ -117,6 +120,7 @@ public class ReportController extends HttpServlet {
 				}
 				
 				request.setAttribute("list", bills);
+				request.setAttribute("reports", reports.isEmpty() ? Collections.emptyList() : reports);
 				request.setAttribute("d1", formatter2.format(d1));
 				request.setAttribute("d2", formatter2.format(d2));
 				request.getRequestDispatcher("report.jsp").forward(request, response);
@@ -126,7 +130,10 @@ public class ReportController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		String email =request.getParameter("email");
+		System.out.println(email+"00000");
+		ReportDAO reportDAO =new ReportDAO();
+		reportDAO.deleteReport(email);
 		doGet(request, response);
 	}
 

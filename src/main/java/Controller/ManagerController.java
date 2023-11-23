@@ -3,11 +3,21 @@ package Controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.UUID;
 
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -199,6 +209,8 @@ public class ManagerController extends HttpServlet {
 		bill.setIdUser(idUser);
 		billDAO.updateBill(bill);
 		
+		sendMail("dongphuong122003@gmail.com", "Cảm ơn quý khách đã sử dụng dịch vụ của khách sạn");
+		
 		
 		request.setAttribute("tien", bill.getSum());
 		request.setAttribute("Thanhtoan", 1);
@@ -207,6 +219,44 @@ public class ManagerController extends HttpServlet {
 	
 	private String randomID() {
 		return UUID.randomUUID().toString();
+	}
+	
+	private boolean sendMail(String to, String content) {
+		String from = "nexushotel123@gmail.com";
+		String password = "lozezryvorvxnubz";
+		
+		Properties props = new Properties();
+		props.put("mail.smtp.host", "smtp.gmail.com"); 
+		props.put("mail.smtp.port", "587"); 
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		Authenticator auth = new Authenticator() {
+
+			@Override
+			protected PasswordAuthentication getPasswordAuthentication() {
+				// TODO Auto-generated method stub
+				return new PasswordAuthentication(from, password);
+			}
+			
+		};
+		
+		Session session = Session.getInstance(props,auth);
+		
+		
+		MimeMessage msg = new MimeMessage(session);
+		try {
+			msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
+			msg.setFrom(from);
+			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to,false));
+			msg.setSubject("Thông báo khách sạn");
+			msg.setSentDate(new Date());
+			msg.setContent(content, "text/HTML; charset=UTF-8");
+			Transport.send(msg);
+			return true;
+		} catch (MessagingException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }

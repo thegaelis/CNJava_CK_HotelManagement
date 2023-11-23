@@ -1,4 +1,4 @@
-<%@page import="BEAN.Bill"%>
+<%@page import="BEAN.*"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -106,7 +106,7 @@
 				<div class="container-fluid">
 					<div
 						class="d-sm-flex justify-content-between align-items-center mb-4">
-						<h3 class="text-dark mb-0">Report</h3>
+						<h3 class="text-dark mb-0">Revenue</h3>
 						<form action="ReportController">
 						<input name="action" value="XuatExcel" type="hidden">
 						<input name="d1" type="hidden" value = <%= request.getAttribute("d1") %>>
@@ -164,13 +164,58 @@
 
 				</div>
 
+			<!-- 	report0---------------------- -->
+				<div class="container-fluid mt-4">
+					<div
+						class="d-sm-flex justify-content-between align-items-center mb-4">
+						<h3 class="text-dark mb-0">Report</h3>
+						
+					</div>
+					
+					<div class="row mt-3">
 
+
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col">Email</th>
+									<th scope="col">Nội dung</th>
+									<th scope="col">Đã đọc</th>
+								</tr>
+							</thead>
+							<tbody>
+							<%
+							List<Report> reports = (List<Report>)request.getAttribute("reports");
+							for(Report rp : reports){
+							%>
+								<tr>
+									<th scope="row"><%= rp.getEmail() %></th>
+									<td><%= rp.getText() %></td>
+									<td>
+										<form action="ReportController" method="post">
+											<input value="<%=rp.getEmail() %>" name="email" hidden>
+											<button type="submit" class="btn btn-danger col-4" >
+													Xóa
+											</button>
+										</form>
+										
+									</td>
+								</tr>
+							<% } %>
+							</tbody>
+						</table>
+
+					</div>
+
+
+
+				</div>
 
 
 			</div>
 		</div>
 	</div>
-
+	
 
 	<!--Footer-->
 	<footer class="sticky-footer" style="background-color: #649e81;">
