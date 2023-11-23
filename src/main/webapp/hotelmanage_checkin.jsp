@@ -150,12 +150,24 @@
 								<div class="card-checkin-text">
 									<p>From: <%=guest.getEmail() %></p>
 									<p>Name: <%=guest.getName()  %></p>
+									<p>Check in: <%= re.getStartTime().toString() %> </p>
+									<p>Check out: <%= re.getEndTime().toString()%> </p>
 									<p><%=number %> room</p>
 
 								</div>
 								<div>
-									<button class="btn btn-primary" data-bs-toggle="modal"
+									<form action="CheckinController" method="post">
+									<input type="hidden" name="reservationId" value= <%=re.getId() %>>
+									<input type="hidden" name="guestId" value= <%=guest.getId() %>>
+									<input type="hidden" name="action" value= "Huy">
+									<button class="btn btn-danger me-3" type="submit" 
+										>Hủy</button>
+									
+									
+									<button class="btn btn-primary" data-bs-toggle="modal" type="button"
 										data-bs-target='<%="#modal"+re.getId()%>'>View</button>
+										
+									</form>
 								</div>
 							</div>
 							

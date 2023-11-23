@@ -134,4 +134,22 @@ public class BillDAO {
 		}
 		return Collections.emptyList();
 	}
+	
+	public boolean deleteBillByIdGuest(String id) {
+		try {
+			String query = "delete from bills where IDGuest = ? and Status = 0; ";
+			connection = new config().getConnection();
+			statement = connection.prepareStatement(query);
+			statement.setString(1, id);
+
+			boolean deletedResult = statement.executeUpdate() > 0;
+			statement.close();
+			connection.close();
+
+			return deletedResult;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }
