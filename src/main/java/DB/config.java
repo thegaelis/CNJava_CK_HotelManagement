@@ -8,7 +8,7 @@ public class config {
 
 	private static final String USERNAME = "root";
 //	private static final String PASSWORD = "";
-	private static final String PASSWORD = "";
+	private static final String PASSWORD = "123456789";
 	private static final String DATABASE = "hotel";
 	private static final String HOST = "localhost";
 
