@@ -8,10 +8,19 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
 import java.util.Date;
 
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -132,6 +141,7 @@ public class BookingController extends HttpServlet {
 			if(mapSoLuongPhongTheoId.get(RoomTypeID) > roomDAO.layPhongChuaDat(ngayden, ngaydi, RoomTypeID).size()) {
 				request.setAttribute("msg", "Trong khoảng ngày đó không có phòng, vui lòng chọn ngày khác, hoặc loại phòng khác");	
 				doGet(request,response);
+				return;
 			}
 		}
 		
@@ -158,7 +168,7 @@ public class BookingController extends HttpServlet {
 				}
 			}
         }else {
-        	System.out.println("-------->checkfalse");
+        	
 			Calendar now = Calendar.getInstance();
 			Guest guest =new Guest();		
 			
@@ -192,7 +202,7 @@ public class BookingController extends HttpServlet {
 	            e.printStackTrace();
 	        };
 	    boolean add= reservationDAO.insertReservation(reservation);
-	    System.out.println("->>>>>>>>>>>>>check--"+add);
+	  
 	    
 	    
 	    //tạo reservationRoom
@@ -242,6 +252,8 @@ public class BookingController extends HttpServlet {
 	    billDAO.insertBill(bill);
 	    
 	    
+	    sendMail("dongphuong122003@gmail.com", "Quý khách đã đặt phòng thành công");
+	    
 	    
 	    
 		RequestDispatcher rd = request.getRequestDispatcher("successbooking.jsp");
@@ -250,6 +262,44 @@ public class BookingController extends HttpServlet {
 	
 	private String randomID() {
 		return UUID.randomUUID().toString();
+	}
+	
+	private boolean sendMail(String to, String content) {
+		String from = "nexushotel123@gmail.com";
+		String password = "lozezryvorvxnubz";
+		
+		Properties props = new Properties();
+		props.put("mail.smtp.host", "smtp.gmail.com"); 
+		props.put("mail.smtp.port", "587"); 
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		Authenticator auth = new Authenticator() {
+
+			@Override
+			protected PasswordAuthentication getPasswordAuthentication() {
+				// TODO Auto-generated method stub
+				return new PasswordAuthentication(from, password);
+			}
+			
+		};
+		
+		Session session = Session.getInstance(props,auth);
+		
+		
+		MimeMessage msg = new MimeMessage(session);
+		try {
+			msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
+			msg.setFrom(from);
+			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to,false));
+			msg.setSubject("Thông báo khách sạn");
+			msg.setSentDate(new Date());
+			msg.setContent(content, "text/HTML; charset=UTF-8");
+			Transport.send(msg);
+			return true;
+		} catch (MessagingException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 }

@@ -147,34 +147,25 @@
                 </div>
                 <div class="col-md-6">
                     <div class="wow fadeInUp" data-wow-delay="0.2s">
-                        <form>
+                        <form action="ReportController" method="post">
+                        <p class="text-danger text-center"><%=request.getAttribute("msg")!=null?request.getAttribute("msg"):""%></p>
                             <div class="row g-3">
-                                <div class="col-md-6">
+                                
+                                <div class="col-md-12">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="name" placeholder="Your Name">
-                                        <label for="name">Your Name</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <input type="email" class="form-control" id="email" placeholder="Your Email">
+                                        <input type="email" class="form-control" id="email" placeholder="Your Email" name="email">
                                         <label for="email">Your Email</label>
                                     </div>
                                 </div>
+                                
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="subject" placeholder="Subject">
-                                        <label for="subject">Subject</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <textarea class="form-control" placeholder="Leave a message here" id="message" style="height: 150px"></textarea>
+                                        <textarea class="form-control" placeholder="Leave a message here" id="text" style="height: 150px" name="text"></textarea>
                                         <label for="message">Message</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
+                                    <button class="btn btn-primary w-100 py-3" type="submit" id="btn">Send Message</button>
                                 </div>
                             </div>
                         </form>
@@ -311,4 +302,22 @@
 
 <script src="assets/js/main.js"></script>
 <script src="assets/js/animation-tes.js"></script>
+
+<script type="text/javascript">
+
+	var btn= document.getElementById("btn")
+	var email= document.getElementById("email")
+	var text= document.getElementById("text")
+	
+	btn.onclick= function(e){
+		if(!email.value ||!text.value){
+			e.preventDefault()
+			alert("Please fill input")
+		}
+		
+	}
+	
+	
+</script>
+
 </html>
