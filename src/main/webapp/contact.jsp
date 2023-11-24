@@ -1,3 +1,6 @@
+<%@page import="BEAN.Report"%>
+<%@page import="java.util.List"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!doctype html>
@@ -83,7 +86,7 @@
 									class="nav-item nav-link" href="services.jsp">Services</a> <a
 									class="nav-item nav-link" href="rooms.jsp">Rooms</a>
 								<a class="nav-item nav-link" href="BookingController">Booking</a>
-								<a class="nav-item nav-link active" href="contact.jsp">Contact</a>
+								<a class="nav-item nav-link active" href="ReportController">Contact</a>
 							</div>
 						</div>
 					</nav>
@@ -175,6 +178,54 @@
         </div>
     </div>
     <!-- Contact End -->
+    
+    
+    
+     <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title text-center text-primary text-uppercase">Comments</h6>
+                <h1 class="mb-5"><span class="text-primary text-uppercase">NEXUS</span> HOTEL</h1>
+            </div>
+            <div class="row g-4">
+                <div class="col-12">
+                   <div class="row d-flex justify-content-center">
+					  <div class="col-md-8 col-lg-6">
+					    <div class="card shadow-0 border" style="background-color: #f0f2f5;">
+					      <div class="card-body p-4">
+					       
+					
+					        <%
+					        	List<Report> list = (List<Report>) request.getAttribute("list");
+					        	for(Report rp :list){
+					        		
+					        	
+					        %>
+					        	<div class="card mb-4">
+					          <div class="card-body">
+					            <p><%=rp.getText() %></p>
+					
+					            <div class="d-flex justify-content-between">
+					              <div class="d-flex flex-row align-items-center">
+					                
+					                <p class="small mb-0 ">Email: <%=rp.getEmail()%></p>
+					              </div>
+					              
+					            </div>
+					          </div>
+					        </div>
+							<%} %>
+					        
+					      </div>
+					    </div>
+					  </div>
+					</div>
+                </div>
+              
+               
+            </div>
+        </div>
+    </div>
 
 
     <!-- Newsletter Start -->

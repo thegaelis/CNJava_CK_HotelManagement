@@ -83,7 +83,7 @@
 									class="nav-item nav-link" href="services.jsp">Services</a> <a
 									class="nav-item nav-link" href="rooms.jsp">Rooms</a>
 								<a class="nav-item nav-link" href="BookingController">Booking</a>
-								<a class="nav-item nav-link" href="contact.jsp">Contact</a>
+								<a class="nav-item nav-link " href="ReportController">Contact</a>
 							</div>
 						</div>
 					</nav>

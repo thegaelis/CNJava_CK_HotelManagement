@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import BEAN.Guest;
 import BEAN.Report;
+import BEAN.RoomType;
 import DAO.GuestDAO;
 import DAO.ReportDAO;
+import DAO.RoomTypeDAO;
 
 /**
  * Servlet implementation class ReportController
@@ -36,6 +38,11 @@ public class ReportController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		List<Report> list = reportDAO.listReport();
+		request.setAttribute("list", list);
+		
+		
 		RequestDispatcher rd = request.getRequestDispatcher("contact.jsp");
 		rd.forward(request, response);
 	}
