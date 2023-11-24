@@ -209,7 +209,7 @@ public class ManagerController extends HttpServlet {
 		bill.setIdUser(idUser);
 		billDAO.updateBill(bill);
 		
-		sendMail("dongphuong122003@gmail.com", "Cảm ơn quý khách đã sử dụng dịch vụ của khách sạn");
+		sendMail("thaihq.work@gmail.com", "Cảm ơn quý khách đã sử dụng dịch vụ của khách sạn");
 		
 		
 		request.setAttribute("tien", bill.getSum());

@@ -198,7 +198,7 @@ public class CheckinController extends HttpServlet {
 			billDAO.deleteBillByIdGuest(guestId);
 			
 		
-			sendMail("dongphuong122003@gmail.com", "Quý khách đã hủy đặt phòng");
+			sendMail("thaihq.work@gmail.com", "Quý khách đã hủy đặt phòng");
 			
 			doGet(request, response);
 		}
