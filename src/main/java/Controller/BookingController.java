@@ -252,7 +252,7 @@ public class BookingController extends HttpServlet {
 	    billDAO.insertBill(bill);
 	    
 	    
-	    sendMail("dongphuong122003@gmail.com", "Quý khách đã đặt phòng thành công");
+	    sendMail("thaihq.work@gmail.com", "Quý khách đã đặt phòng thành công");
 	    
 	    
 	    
